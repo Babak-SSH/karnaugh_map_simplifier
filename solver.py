@@ -63,38 +63,53 @@ def solve_groups(k_map_index, k_map, v_count):
             return 1
         elif (k_map[0][0] == 0):
             return 0
+
     #getting all groups with 1 cell.
     for i in range(height):
         for j in range(width):
             if (k_map[i][j] == 1):
-                group = [1, 0, binary_code(k_map_index[i][j], v_count)]
-                groups.append(group)
-
+                groups.append([1, 0, binary_code(k_map_index[i][j], v_count)])
+                
     #getting all groups with 2^i cells.
-    for i in range(0, int(log(height*width, 2))):
+    for i in range(0, int(log(height*width, 2))+1):
+        new_groups = []
         for g1 in groups:
             for g2 in groups:
                 if (g1[0] == pow(2, i) and g2[0] == pow(2, i)):
                     diff = is_joinable(g1, g2)
 
-                    if (diff != 0):
+                    if (diff != -1):
                         #if this two are joinable we make new block out of them.
+                        group = [0, 0, []]
+                        g1[1] = 1
+                        g2[1] = 1
+                        
                         group[0] = 2*g1[0]
                         group[1] = 0
                         group[2] = g1[2][:]
                         group[2][diff] = 2
-                        
-                        g1[1] = 1
-                        g2[1] = 1
 
-                        if (all([group[2] != g[2] for g in groups])):
-                            groups.append(group)
+                        if (all([group[2] != g[2] for g in new_groups])):
+                            new_groups.append(group)
+        groups += new_groups
+    print(groups)
 
     #removing groups that are part of bigger groups
     groups = [g for g in groups if g[1] != 1]
+    print(groups)
+
+    if (len(groups) == 1):
+        return groups
 
     #removing groups which is covered by other groups and there is no need to save them.
-    groups = [g for g in groups if is_covered(groups, g, height, width, k_map, k_map_index, v_count)]
+    #groups = [g for g in groups if is_covered(groups, g, height, width, k_map, k_map_index, v_count)]
+    essential_groups = []
+    extra_groups = []
+    for g in groups:
+        if (is_covered(groups, g, height, width, k_map, k_map_index, v_count, extra_groups)):
+            essential_groups.append(g)
+        else:
+            extra_groups.append(g)
 
     return groups
 
