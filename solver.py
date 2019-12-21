@@ -104,6 +104,7 @@ def solve_groups(k_map_index, k_map, v_count):
 
     #removing groups which is covered by other groups and there is no need to save them.
     #groups = [g for g in groups if is_covered(groups, g, height, width, k_map, k_map_index, v_count)]
+    print(groups)
     essential_groups = []
     extra_groups = []
     for g in groups:
@@ -111,6 +112,6 @@ def solve_groups(k_map_index, k_map, v_count):
             essential_groups.append(g)
         else:
             extra_groups.append(g)
-
-    return groups
+    print(essential_groups)
+    return essential_groups
 

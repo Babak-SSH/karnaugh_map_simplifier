@@ -34,19 +34,18 @@ def is_covered(groups, group, height, width, k_map, k_map_index, v_count, extra)
     return k_map != k_map_temp
 
 def show(final_groups):
+    print(final_groups)
     variables_sign = ['A', 'B', 'C', 'D', 'E', 'F']
-    prime_signs = ""
     variables = ""
+    output = []
     
     for g in final_groups:
         for i in range(len(g[2])):
             if (g[2][i] == 0):
-                prime_signs += '_'
-                variables += variables_sign[i]
+                variables += variables_sign[i] + "'"
             elif (g[2][i] == 1):
-                prime_signs += ' '
                 variables += variables_sign[i]
-        prime_signs += ' '
-        variables += '+'
-    
-    print(prime_signs + '\n' + variables)
+        output.append(variables)    
+        variables = ""
+
+    print("+".join(output))
