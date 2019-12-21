@@ -51,6 +51,7 @@ def solve(d_care, k_map_index, k_map, v_count):
     groups = solve_groups(k_map_index, k_map_temp, v_count)
 
     print(groups)
+    return groups
 
 def solve_groups(k_map_index, k_map, v_count):
     width = len(k_map_index[0])

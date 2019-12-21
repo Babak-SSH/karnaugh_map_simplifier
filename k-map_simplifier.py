@@ -1,4 +1,5 @@
 from solver import make_karnaugh_map, solve
+from utils import show
 
 
 def get_inputs():
@@ -11,4 +12,5 @@ def get_inputs():
 if __name__ == "__main__":
     variables_count, terms, d_care = get_inputs()
     k_map_index, k_map = make_karnaugh_map(variables_count, terms)
-    solve(d_care, k_map_index, k_map, variables_count)
+    final_groups = solve(d_care, k_map_index, k_map, variables_count)
+    show(final_groups)
